@@ -27,6 +27,8 @@ async function run() {
         core.getInput("body-uppercase-base-match").toLowerCase() === "true",
       bodyUppercaseHeadMatch:
         core.getInput("body-uppercase-head-match").toLowerCase() === "true",
+      failOnError:
+        core.getInput("fail-on-error").toLowerCase() === "true",
     };
 
     const baseBranchRegex = inputs.baseBranchRegex.trim();
@@ -36,7 +38,7 @@ async function run() {
     const matchHeadBranch = headBranchRegex.length > 0;
 
     if (!matchBaseBranch && !matchHeadBranch) {
-      core.setFailed("No branch regex values have been specified");
+      if (inputs.failOnError) { core.setFailed("No branch regex values have been specified"); }
       return;
     }
 
@@ -54,7 +56,7 @@ async function run() {
 
       const baseMatches = baseBranch.match(new RegExp(baseBranchRegex));
       if (!baseMatches) {
-        core.setFailed("Base branch name does not match given regex");
+        if (inputs.failOnError) { core.setFailed("Base branch name does not match given regex"); }
         return;
       }
 
@@ -73,7 +75,7 @@ async function run() {
 
       const headMatches = headBranch.match(new RegExp(headBranchRegex));
       if (!headMatches) {
-        core.setFailed("Head branch name does not match given regex");
+        if (inputs.failOnError) { core.setFailed("Head branch name does not match given regex"); }
         return;
       }
 
