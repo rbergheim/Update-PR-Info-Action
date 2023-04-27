@@ -31,6 +31,13 @@ async function run() {
         !(core.getInput("fail-on-error").toLowerCase() === "false"),
     };
 
+    const error = (msg) => { 
+      if (inputs.failOnError) 
+        core.setFailed(msg);
+       else
+         core.warning(msg); 
+     };
+
     const baseBranchRegex = inputs.baseBranchRegex.trim();
     const matchBaseBranch = baseBranchRegex.length > 0;
 
@@ -38,7 +45,7 @@ async function run() {
     const matchHeadBranch = headBranchRegex.length > 0;
 
     if (!matchBaseBranch && !matchHeadBranch) {
-      if (inputs.failOnError) { core.setFailed("No branch regex values have been specified"); }
+      error("No branch regex values have been specified");
       return;
     }
 
@@ -56,7 +63,7 @@ async function run() {
 
       const baseMatches = baseBranch.match(new RegExp(baseBranchRegex));
       if (!baseMatches) {
-        if (inputs.failOnError) { core.setFailed("Base branch name does not match given regex"); }
+        error("Base branch name does not match given regex");
         return;
       }
 
@@ -75,7 +82,7 @@ async function run() {
 
       const headMatches = headBranch.match(new RegExp(headBranchRegex));
       if (!headMatches) {
-        if (inputs.failOnError) { core.setFailed("Head branch name does not match given regex"); }
+        error("Head branch name does not match given regex");
         return;
       }
 
