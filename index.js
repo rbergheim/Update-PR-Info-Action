@@ -28,7 +28,7 @@ async function run() {
       bodyUppercaseHeadMatch:
         core.getInput("body-uppercase-head-match").toLowerCase() === "true",
       failOnError:
-        core.getInput("fail-on-error").toLowerCase() === "true",
+        !(core.getInput("fail-on-error").toLowerCase() === "false"),
     };
 
     const baseBranchRegex = inputs.baseBranchRegex.trim();
@@ -149,9 +149,9 @@ async function run() {
 
     const updateBody =
       {
-        prefix: !body.toLowerCase().startsWith(processedBodyText.toLowerCase()),
-        suffix: !body.toLowerCase().endsWith(processedBodyText.toLowerCase()),
-        replace: body.toLowerCase() !== processedBodyText.toLowerCase(),
+        prefix: !body.trim().toLowerCase().startsWith(processedBodyText.trim().toLowerCase()),
+        suffix: !body.trim().toLowerCase().endsWith(processedBodyText.trim().toLowerCase()),
+        replace: body.trim().toLowerCase() !== processedBodyText.trim().toLowerCase(),
       }[inputs.bodyUpdateAction] || false;
 
     core.setOutput("bodyUpdated", updateBody.toString());
