@@ -142,7 +142,8 @@ async function run() {
         headTokenRegex,
         upperCase(inputs.bodyUppercaseHeadMatch, matches.headMatch)
       );
-    core.info(`Processed body text: ${processedBodyText}`);
+    core.info(`Existing body text: [${body}]`);
+    core.info(`Processed body text: [${processedBodyText}]`);
 
     const updateBody =
       {
