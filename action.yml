@@ -1,6 +1,6 @@
 name: "Update Pull Request from Branch Name"
 description: "Updates a pull request with information extracted from head and/or base branch name"
-author: "Jamie Wright"
+author: "Jamie Wright / Roar Bergheim"
 runs:
   using: "node16"
   main: "dist/index.js"
@@ -58,6 +58,10 @@ inputs:
     default: "true"
   body-uppercase-head-match:
     description: "Should the matched text from head branch be in the body. This is a check and will not change anything."
+    required: false
+    default: "true"
+  fail-on-error:
+    description: "Should the action fail if an error is encountered (e.g. the branch name does not match)"
     required: false
     default: "true"
 outputs:
